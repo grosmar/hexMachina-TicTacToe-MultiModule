@@ -32,7 +32,7 @@ class GameModel extends BasicModel<GameModelDispatcher, IGameModelListener> impl
 	public function setActivePlayer(index:UInt):IPlayer 
 	{
 		this.activeIndex = index;
-		this.dispatcher.onActivePlayerChange( index );
+		this.dispatcher.onActivePlayerChange( this.playerList[index] );
 		return this.playerList[index];
 	}
 		
@@ -61,7 +61,7 @@ private class GameModelDispatcher extends ModelDispatcher<IGameModelListener> im
 		
 	}
 	
-	public function onActivePlayerChange( index:UInt ):Void
+	public function onActivePlayerChange( player:IPlayer ):Void
 	{
 		
 	}

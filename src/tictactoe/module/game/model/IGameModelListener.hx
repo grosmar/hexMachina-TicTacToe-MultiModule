@@ -8,5 +8,5 @@ interface IGameModelListener
 {
 	function onPlayerListUpdate(playerList:Array<IPlayer>):Void;
 	
-	function onActivePlayerChange(index:UInt):Void;
+	function onActivePlayerChange(player:IPlayer):Void;
 }

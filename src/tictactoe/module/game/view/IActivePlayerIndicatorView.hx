@@ -1,4 +1,5 @@
 package tictactoe.module.game.view;
+import tictactoe.api.IPlayer;
 
 /**
  * @author duke
@@ -6,4 +7,6 @@ package tictactoe.module.game.view;
 interface IActivePlayerIndicatorView 
 {
 	function setActivePlayer( sign:String ):Void;
+	
+	function setPlayerList(playerList:Array<IPlayer>):Void;
 }

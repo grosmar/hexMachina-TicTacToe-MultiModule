@@ -4,6 +4,7 @@ import hex.structures.Point;
 import hex.structures.Size;
 import tictactoe.api.IBoard;
 import tictactoe.api.IPlayer;
+import tictactoe.vo.LineVO;
 import tictactoe.module.game.model.IGameModel;
 
 /**
@@ -51,9 +52,18 @@ class GameController implements IGameController implements IInjectorContainer
 		
 		if ( this.board.getBoardPoint( point ) == null )
 		{
-			trace("set");
 			this.board.setBoardPoint( point, player.getSign() );
-			this.nextPlayer();
+			
+			var line:LineVO = null;
+			if ( (line = this.board.getFullLine()) != null )
+			{
+				trace("Game Over. Winner: " + line.sign);
+				this.board.setWinnerLine( line );
+			}
+			else
+			{
+				this.nextPlayer();
+			}
 		}
 		else
 		{

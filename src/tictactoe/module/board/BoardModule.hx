@@ -12,6 +12,7 @@ import tictactoe.module.board.controller.IBoardController;
 import tictactoe.module.board.model.BoardModel;
 import tictactoe.module.board.model.IBoardModel;
 import tictactoe.module.board.view.IBoardView;
+import tictactoe.vo.LineVO;
 
 /**
  * ...
@@ -20,7 +21,7 @@ import tictactoe.module.board.view.IBoardView;
 class BoardModule extends Module implements IBoard
 {
 
-	public function new(board:Size, boardView:IBoardView) 
+	public function new(board:Size, successLineCount:UInt, boardView:IBoardView) 
 	{
 		super();
 		this._addStatelessConfigClasses( [BoardModuleConfig] );
@@ -28,7 +29,12 @@ class BoardModule extends Module implements IBoard
 		this._injector.mapToValue( IBoardView, boardView );
 		this._injector.injectInto( boardView );
 		
-		this._get( IBoardController ).setBoard( board );
+		this._get( IBoardController ).setBoard( board, successLineCount );
+	}
+	
+	public function setWinnerLine( line:LineVO ):Void
+	{
+		this._get( IBoardController ).setWinnerLine( line );
 	}
 	
 	public function setBoardPoint(point:Point, sign:String):Void 
@@ -39,6 +45,11 @@ class BoardModule extends Module implements IBoard
 	public function getBoardPoint(point:Point):String 
 	{
 		return this._get( IBoardController ).getBoardPoint( point );
+	}
+	
+	public function getFullLine( ):LineVO
+	{
+		return this._get( IBoardController ).getFullLine( );
 	}
 	
 	override function _getRuntimeDependencies():IRuntimeDependencies 

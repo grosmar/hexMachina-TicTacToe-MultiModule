@@ -10,6 +10,7 @@
 	
 	<module id="boardModule" type="tictactoe.module.board.BoardModule">
 		<argument ref="boardSize" />
+		<argument value="3" type="UInt" />
 		<argument ref="boardView" />
 	</module>
 	

@@ -10,6 +10,7 @@ import tictactoe.api.IPlayer;
 import tictactoe.module.board.model.IBoardModelListener;
 import tictactoe.module.board.model.IBoardModelRO;
 import tictactoe.module.board.view.IBoardView;
+import tictactoe.vo.LineVO;
 
 /**
  * ...
@@ -57,6 +58,19 @@ class BoardView extends BasicView implements IBoardView implements IBoardModelLi
 		var cell = cast(this.container.rows.item(point.y), TableRowElement).cells.item(point.x);
 		cell.classList.add("is-filled");
 		cell.innerHTML = "<div class=\"" + sign + "\"></div>";
+	}
+	
+	public function setWinnerLine( line:LineVO ):Void
+	{
+		for (i in 0...line.line.length)
+		{
+			cast(this.container.rows.item(line.line[i].y), TableRowElement).cells.item(line.line[i].x).classList.add("is-winner-cell");
+		}
+	}
+	
+	public function onWinnerLine( line:LineVO ):Void
+	{
+		this.setWinnerLine( line );
 	}
 	
 	public function onBoardInit(size:Size):Void 

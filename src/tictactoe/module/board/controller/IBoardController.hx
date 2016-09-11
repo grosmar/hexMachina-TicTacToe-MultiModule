@@ -1,5 +1,6 @@
 package tictactoe.module.board.controller;
 import hex.structures.Size;
+import tictactoe.vo.LineVO;
 
 /**
  * ...
@@ -12,5 +13,9 @@ interface IBoardController
 
 	function getBoardPoint(point:Size):String;
 	
-	function setBoard(size:Size):Void;
+	function getFullLine( ):LineVO;
+	
+	function setBoard(size:Size, successLineCount:UInt ):Void;
+	
+	function setWinnerLine(line:LineVO):Void;
 }

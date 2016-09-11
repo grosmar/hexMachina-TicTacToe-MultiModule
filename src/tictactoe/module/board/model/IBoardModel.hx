@@ -1,6 +1,7 @@
 package tictactoe.module.board.model; 
 import hex.structures.Point;
 import hex.structures.Size;
+import tictactoe.vo.LineVO;
 
 /**
  * @author duke
@@ -8,8 +9,12 @@ import hex.structures.Size;
 interface IBoardModel extends IBoardModelRO
 {
   
-  function initBoard( size:Size ):Void;
+  function initBoard( size:Size, successLineCount:UInt ):Void;
   
   function setBoardPoint(point:Point, sign:String):Void;
+  
+  function getFullLine():LineVO;
+  
+  function setWinnerLine(line:LineVO):Void;
   
 }

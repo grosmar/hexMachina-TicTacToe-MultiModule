@@ -1,5 +1,6 @@
 package js.tictactoe.view.player.user;
 
+import hex.control.AsyncResponder;
 import hex.control.ICompletable;
 import hex.control.ResultResponder;
 import hex.structures.Point;
@@ -8,7 +9,6 @@ import js.html.Event;
 import js.html.TableCellElement;
 import js.html.TableElement;
 import js.html.TableRowElement;
-import tictactoe.module.player.responder.AsyncResponder;
 import tictactoe.module.player.user.view.IUserPlayerView;
 
 /**

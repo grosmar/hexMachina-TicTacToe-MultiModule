@@ -43,10 +43,10 @@ class BoardModel extends BasicModel<BoardModelDispatcher, IBoardModelListener> i
 	
 	public function getFullLine():LineVO
 	{
+		//TODO: get the longest result
 		var result:LineVO;
-		if ( (result = this.getFullRow()) != null || (result = this.getFullCol()) != null )
+		if ( (result = this.getFullRow()) != null || (result = this.getFullCol()) != null || (result = this.getFullDiagonal()) != null || (result = this.getFullDiagonalInverse()) != null )
 		{
-			trace( result );
 			return result;
 		}
 		
@@ -73,14 +73,14 @@ class BoardModel extends BasicModel<BoardModelDispatcher, IBoardModelListener> i
 				if ( cell != null && cell == lastRowSign )
 				{
 					rowList.push( new Point(j, i) );
-					
-					if ( rowList.length == this.successLineCount )
-					{
-						return new LineVO(rowList, lastRowSign );
-					}
 				}
 				else
 				{
+					if ( rowList.length >= this.successLineCount )
+					{
+						return new LineVO(rowList, lastRowSign );
+					}
+					
 					rowList = [new Point(j, i)];
 					lastRowSign = cell;
 				}
@@ -97,22 +97,22 @@ class BoardModel extends BasicModel<BoardModelDispatcher, IBoardModelListener> i
 		var colList = new Array<Point>();
 		var lastColSign:String = null;
 		
-		for ( i in 0...Std.int(this.size.height) )
+		for ( j in 0...Std.int(this.size.width) )
 		{
-			for ( j in 0...Std.int(this.size.width) )
+			for ( i in 0...Std.int(this.size.height) )
 			{
 				var cell:String = this.board[i][j];
 				if ( cell != null && cell == lastColSign )
 				{
 					colList.push( new Point(j, i) );
-					
-					if ( colList.length == this.successLineCount )
-					{
-						return new LineVO(colList, lastColSign );
-					}
 				}
 				else
 				{
+					if ( colList.length >= this.successLineCount )
+					{
+						return new LineVO(colList, lastColSign );
+					}
+					
 					colList = [new Point(j, i)];
 					lastColSign = cell;
 				}
@@ -124,46 +124,92 @@ class BoardModel extends BasicModel<BoardModelDispatcher, IBoardModelListener> i
 		return null;
 	}
 	
-	/*
 	function getFullDiagonal():LineVO
 	{
 		var diagonalList = new Array<Point>();
 		var lastDiagonalSign:String;
 		
-		for ( i in 0...this.size.height )
+		for ( i in 0...Std.int(this.size.height - this.successLineCount + 1) )
 		{
-			for ( j in 0...this.size.width )
-			{
-				var cell:String = this.board[i][j]
-				if ( diagonalList.length > 0   cell == lastDiagonalSign )
+			for ( j in 0...Std.int(this.size.width - this.successLineCount + 1) )
+			{	
+				lastDiagonalSign = this.board[i][j];
+				
+				if ( lastDiagonalSign == null )
 				{
-					if ( diagonalList[diagonalList.length - 1].x == j - 1 && diagonalList[diagonalList.length - 1].y == i - 1 )
+					continue;
+				}
+				
+				diagonalList = [new Point(j, i)];
+				
+				for ( k in 1...this.successLineCount )
+				{
+					var cell:String = this.board[i+k][j+k];
+					
+					if ( cell != lastDiagonalSign )
 					{
-						if ( lastDiagonalSign == cell )
-						{
-							diagonalList.push( new Point(j, i) );
-							
-							if ( diagonalList.length == this.successLineCount )
-							{
-								return new LineVO(diagonalList, lastDiagonalSign );
-							}
-						}
-						else
-						{
-							diagonalList = [ new Point(j, i) ];
-						}
+						break;
+					}
+					else
+					{
+						diagonalList.push( new Point(j+k, i+k) );
 					}
 				}
-				else
+				
+				if ( diagonalList.length >= this.successLineCount )
 				{
-					diagonalList = [ new Point(j, i) ];
-					lastColSign = cell;
+					return new LineVO(diagonalList, lastDiagonalSign );
 				}
 			}
-			
-			colList = [];
 		}
-	}*/
+		
+		return null;
+	}
+	
+	function getFullDiagonalInverse():LineVO
+	{
+		var diagonalList = new Array<Point>();
+		var lastDiagonalSign:String;
+		
+		var width:UInt = Std.int(this.size.width);
+		var height:UInt = Std.int(this.size.height);
+		
+		for ( i in 0...(height - this.successLineCount + 1) )
+		{
+			for ( j in 0...(width - this.successLineCount + 1) )
+			{	
+				lastDiagonalSign = this.board[i][width-j];
+				
+				if ( lastDiagonalSign == null )
+				{
+					continue;
+				}
+				
+				diagonalList = [new Point(width-j, i)];
+				
+				for ( k in 1...this.successLineCount )
+				{
+					var cell:String = this.board[i+k][width-j-k];
+					
+					if ( cell != lastDiagonalSign )
+					{
+						break;
+					}
+					else
+					{
+						diagonalList.push( new Point(width-j-k, i+k) );
+					}
+				}
+				
+				if ( diagonalList.length >= this.successLineCount )
+				{
+					return new LineVO(diagonalList, lastDiagonalSign );
+				}
+			}
+		}
+		
+		return null;
+	}
 	
 	
 }

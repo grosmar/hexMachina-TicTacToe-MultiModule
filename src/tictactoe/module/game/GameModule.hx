@@ -9,6 +9,7 @@ import tictactoe.module.game.controller.GameController;
 import tictactoe.module.game.controller.IGameController;
 import tictactoe.module.game.model.GameModel;
 import tictactoe.module.game.model.IGameModel;
+import tictactoe.module.game.view.IActivePlayerIndicatorView;
 
 /**
  * ...
@@ -17,12 +18,17 @@ import tictactoe.module.game.model.IGameModel;
 class GameModule extends Module
 {
 
-	public function new(player1:IPlayer, player2:IPlayer, board:IBoard) 
+	public function new(player1:IPlayer, player2:IPlayer, board:IBoard, ?activePlayerIndicatorView:IActivePlayerIndicatorView) 
 	{
 		super();
 		this._injector.mapToValue( IBoard, board );
 		
 		this._addStatelessConfigClasses( [GameModuleConfig] );
+		
+		if ( activePlayerIndicatorView != null )
+		{
+			this._injector.injectInto(activePlayerIndicatorView);
+		}
 		
 		this._get( IGameController ).setPlayerList( [player1, player2] );
 	}

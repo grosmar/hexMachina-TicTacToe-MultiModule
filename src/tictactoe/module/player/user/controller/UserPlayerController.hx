@@ -1,11 +1,11 @@
 package tictactoe.module.player.user.controller;
+import hex.control.AsyncResponder;
 import hex.control.ICompletable;
 import hex.control.Responder;
 import hex.di.IInjectorContainer;
 import hex.structures.Point;
 import tictactoe.api.IBoard;
 import tictactoe.api.IPlayer;
-import tictactoe.module.player.responder.AsyncResponder;
 import tictactoe.module.player.user.model.IUserPlayerModel;
 import tictactoe.module.player.user.view.IUserPlayerView;
 

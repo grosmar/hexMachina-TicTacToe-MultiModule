@@ -1,4 +1,4 @@
-package js.tictactoe.view;
+package js.tictactoe.view.board;
 
 import hex.structures.Point;
 import hex.structures.Size;
@@ -7,20 +7,20 @@ import js.html.Element;
 import js.html.TableElement;
 import js.html.TableRowElement;
 import tictactoe.api.IPlayer;
+import tictactoe.module.board.model.IBoardModelListener;
+import tictactoe.module.board.model.IBoardModelRO;
 import tictactoe.module.board.view.IBoardView;
-import tictactoe.module.game.model.IGameModelListener;
-import tictactoe.module.game.model.IGameModelRO;
 
 /**
  * ...
  * @author ...
  */
-class BoardView extends BasicView implements IBoardView implements IGameModelListener
+class BoardView extends BasicView implements IBoardView implements IBoardModelListener
 {
 	var container:TableElement;
 	
 	@Inject
-	public var model:IGameModelRO;
+	public var model:IBoardModelRO;
 
 	public function new(container:Element) 
 	{
@@ -59,27 +59,14 @@ class BoardView extends BasicView implements IBoardView implements IGameModelLis
 		cell.innerHTML = "<div class=\"" + sign + "\"></div>";
 	}
 	
-	
-	/* INTERFACE tictactoe.module.game.model.IGameModelListener */
-	
-	public function onPlayerListUpdate(playerList:Array<IPlayer>):Void 
-	{
-		
-	}
-	
-	public function onActivePlayerChange(index:UInt):Void 
-	{
-		
-	}
-	
 	public function onBoardInit(size:Size):Void 
 	{
 		this.setSize( size );
 	}
 	
-	public function onBoardUpdate(player:IPlayer, point:Point):Void 
+	public function onBoardUpdate(point:Point, sign:String):Void 
 	{
-		this.setBoardCell( point, player.getSign() );
+		this.setBoardCell( point, sign );
 	}
 	
 }

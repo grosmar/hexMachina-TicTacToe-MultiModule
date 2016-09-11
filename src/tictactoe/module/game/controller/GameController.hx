@@ -32,24 +32,28 @@ class GameController implements IGameController implements IInjectorContainer
 	{
 		var actIndex:UInt = this.model.getAcivePlayerIndex( );
 		var length:UInt = this.model.getPlayerListLength( );
-		
-		var nextIndex:UInt = actIndex < length - 1 ? actIndex++ : 0;
+		trace(actIndex, length);
+		var nextIndex:UInt = actIndex < length - 1 ? actIndex+1 : 0;
 		this.setActivePlayer( nextIndex );
 	}
 	
 	function setActivePlayer( index:UInt ):Void
 	{
+		trace("setActivePlayer", index );
 		var player:IPlayer = this.model.setActivePlayer( index );
 		player.setPlayerTurn( ).onComplete( this.onPlayerChoose );
 	}
 	
 	function onPlayerChoose( point:Point ):Void 
 	{
+		trace("onPlayerChoose", point );
 		var player:IPlayer = this.model.getAcivePlayer( );
 		
 		if ( this.board.getBoardPoint( point ) == null )
 		{
+			trace("set");
 			this.board.setBoardPoint( point, player.getSign() );
+			this.nextPlayer();
 		}
 		else
 		{

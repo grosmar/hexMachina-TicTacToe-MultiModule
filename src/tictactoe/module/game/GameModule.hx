@@ -20,11 +20,11 @@ class GameModule extends Module
 	public function new(player1:IPlayer, player2:IPlayer, board:IBoard) 
 	{
 		super();
-		this._addStatelessConfigClasses( [GameModuleConfig] );
-		
 		this._injector.mapToValue( IBoard, board );
 		
-		this._get( IGameController ).setPlayerList( [player1] );
+		this._addStatelessConfigClasses( [GameModuleConfig] );
+		
+		this._get( IGameController ).setPlayerList( [player1, player2] );
 	}
 	
 	override function _getRuntimeDependencies():IRuntimeDependencies 

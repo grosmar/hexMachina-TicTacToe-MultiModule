@@ -14,11 +14,13 @@
 	</module>
 	
 	<module id="userPlayer1" type="tictactoe.module.player.user.UserPlayerModule">
+		<argument ref="userPlayerView1" />
 		<argument value="x" />
 		<argument ref="boardModule" />
 	</module>
 	
 	<module id="userPlayer2" type="tictactoe.module.player.user.UserPlayerModule">
+		<argument ref="userPlayerView2" />
 		<argument value="o" />
 		<argument ref="boardModule" />
 	</module>
@@ -27,11 +29,17 @@
 	<div id="boardViewDiv" type="js.Browser" static-ref="document" factory="querySelector">
 		<argument value=".tic-tac-toe-table"/>
 	</div>
-	
-	<view id="boardView" type="js.tictactoe.view.BoardView">
+	<view id="boardView" type="js.tictactoe.view.board.BoardView">
 		<argument ref="boardViewDiv" />
 	</view>
 	
+	<view id="userPlayerView1" type="js.tictactoe.view.player.user.UserPlayerView">
+		<argument ref="boardViewDiv" />
+	</view>
+	
+	<view id="userPlayerView2" type="js.tictactoe.view.player.user.UserPlayerView">
+		<argument ref="boardViewDiv" />
+	</view>
 	
 	<bean id="boardSize" type="hex.structures.Size">
 		<argument value="5" type="Float" />

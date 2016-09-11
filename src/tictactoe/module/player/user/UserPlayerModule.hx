@@ -11,6 +11,7 @@ import tictactoe.module.player.user.controller.IUserPlayerController;
 import tictactoe.module.player.user.controller.UserPlayerController;
 import tictactoe.module.player.user.model.IUserPlayerModel;
 import tictactoe.module.player.user.model.UserPlayerModel;
+import tictactoe.module.player.user.view.IUserPlayerView;
 
 /**
  * ...
@@ -19,12 +20,14 @@ import tictactoe.module.player.user.model.UserPlayerModel;
 class UserPlayerModule extends Module implements IPlayer
 {
 
-	public function new( sign:String, board:IBoard ) 
+	public function new( view:IUserPlayerView, sign:String, board:IBoard ) 
 	{
 		super();
-		this._addStatelessConfigClasses( [UserPlayerModuleConfig] );
 		
 		this._injector.mapToValue( IBoard, board );
+		this._injector.mapToValue( IUserPlayerView, view );
+		
+		this._addStatelessConfigClasses( [UserPlayerModuleConfig] );
 		
 		this._get( IUserPlayerController ).setPlayerSign( sign );
 	}

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data name="ticTacToe">
+	
+	
+	<module id="gameModule" type="tictactoe.module.game.GameModule">
+		<argument ref="userPlayer1" />
+		<argument ref="userPlayer2" />
+		<argument ref="boardModule" />
+	</module>
+	
+	<module id="boardModule" type="tictactoe.module.board.BoardModule">
+		<argument ref="boardSize" />
+		<argument ref="boardView" />
+	</module>
+	
+	<module id="userPlayer1" type="tictactoe.module.player.user.UserPlayerModule">
+		<argument value="x" />
+		<argument ref="boardModule" />
+	</module>
+	
+	<module id="userPlayer2" type="tictactoe.module.player.user.UserPlayerModule">
+		<argument value="o" />
+		<argument ref="boardModule" />
+	</module>
+	
+	
+	<div id="boardViewDiv" type="js.Browser" static-ref="document" factory="querySelector">
+		<argument value=".tic-tac-toe-table"/>
+	</div>
+	
+	<view id="boardView" type="js.tictactoe.view.BoardView">
+		<argument ref="boardViewDiv" />
+	</view>
+	
+	
+	<bean id="boardSize" type="hex.structures.Size">
+		<argument value="5" type="Float" />
+		<argument value="5" type="Float" />
+	</bean>
+</data>

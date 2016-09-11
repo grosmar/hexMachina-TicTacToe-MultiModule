@@ -1,0 +1,12 @@
+{
+  "name": "TicTacToe",
+  "license": "MIT",
+  "tags": ["hexmachina", "mvc", "oop"],
+  "description": "Simple TicTacToe example application",
+  "contributors": ["grosmar"],
+  "version": "1.0"
+  "dependencies": 
+  {
+	"hexmaxhina": "git:https://github.com/DoclerLabs/hexMachina.git"
+  }
+}

@@ -4,7 +4,8 @@
 	
 	<module id="gameModule" type="tictactoe.module.game.GameModule">
 		<argument ref="userPlayer1" />
-		<argument ref="userPlayer2" />
+		<!--<argument ref="userPlayer2" />-->
+		<argument ref="aiPlayer1" />
 		<argument ref="boardModule" />
 		<argument ref="activePlayerIndicatorView" />
 	</module>
@@ -23,6 +24,11 @@
 	
 	<module id="userPlayer2" type="tictactoe.module.player.user.UserPlayerModule">
 		<argument ref="userPlayerView2" />
+		<argument value="o" />
+		<argument ref="boardModule" />
+	</module>
+	
+	<module id="aiPlayer1" type="tictactoe.module.player.ai.AIPlayerModule">
 		<argument value="o" />
 		<argument ref="boardModule" />
 	</module>

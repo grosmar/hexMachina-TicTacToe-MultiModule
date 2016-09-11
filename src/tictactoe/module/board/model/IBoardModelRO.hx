@@ -1,6 +1,7 @@
 package tictactoe.module.board.model;
 import hex.model.IModelRO;
 import hex.structures.Point;
+import hex.structures.Size;
 
 /**
  * @author duke
@@ -8,4 +9,8 @@ import hex.structures.Point;
 interface IBoardModelRO extends IModelRO<IBoardModelListener> 
 {
 	function getBoardPoint(point:Point):String;
+	
+	function getEmptyCellCount( ):UInt;
+
+	function getSize( ):Size;
 }

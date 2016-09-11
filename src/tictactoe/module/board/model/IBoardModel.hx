@@ -16,5 +16,4 @@ interface IBoardModel extends IBoardModelRO
   function getFullLine():LineVO;
   
   function setWinnerLine(line:LineVO):Void;
-  
 }

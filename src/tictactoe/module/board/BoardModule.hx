@@ -52,6 +52,16 @@ class BoardModule extends Module implements IBoard
 		return this._get( IBoardController ).getFullLine( );
 	}
 	
+	public function getEmptyCellCount():UInt 
+	{
+		return this._get( IBoardModel ).getEmptyCellCount( );
+	}
+	
+	public function getSize():Size
+	{
+		return this._get( IBoardModel ).getSize( );
+	}
+	
 	override function _getRuntimeDependencies():IRuntimeDependencies 
 	{
 		return new RuntimeDependencies();

@@ -34,7 +34,7 @@ class BoardModel extends BasicModel<BoardModelDispatcher, IBoardModelListener> i
 	
 	public function getBoardPoint(point:Point):String 
 	{
-		return this.board[point.x][point.y];
+		return this.board[point.y][point.x];
 	}
 	
 	

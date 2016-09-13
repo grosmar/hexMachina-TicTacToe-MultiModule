@@ -17,6 +17,7 @@ class GameModel extends BasicModel<GameModelDispatcher, IGameModelListener> impl
 	var activeIndex:UInt;
 	
 	var size:Size;
+	var isDraw:Bool;
 
 	public function new() 
 	{
@@ -52,6 +53,13 @@ class GameModel extends BasicModel<GameModelDispatcher, IGameModelListener> impl
 	}
 	
 	
+	public function setDraw():Void 
+	{
+		this.isDraw = true;
+		this.dispatcher.onDraw( );
+	}
+	
+	
 }
 
 private class GameModelDispatcher extends ModelDispatcher<IGameModelListener> implements IGameModelListener
@@ -62,6 +70,11 @@ private class GameModelDispatcher extends ModelDispatcher<IGameModelListener> im
 	}
 	
 	public function onActivePlayerChange( player:IPlayer ):Void
+	{
+		
+	}
+	
+	public function onDraw( ):Void
 	{
 		
 	}

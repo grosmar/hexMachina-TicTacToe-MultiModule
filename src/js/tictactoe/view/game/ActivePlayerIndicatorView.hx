@@ -75,4 +75,12 @@ class ActivePlayerIndicatorView implements IActivePlayerIndicatorView implements
 		this.setActivePlayer( player.getSign() );
 	}
 	
+	
+	/* INTERFACE tictactoe.module.game.model.IGameModelListener */
+	
+	public function onDraw():Void 
+	{
+		this.activePlayer.classList.remove("is-selected");
+	}
+	
 }

@@ -1,6 +1,7 @@
 package tictactoe.api;
 import hex.structures.Point;
 import hex.structures.Size;
+import tictactoe.vo.BoardVO;
 import tictactoe.vo.LineVO;
 
 /**
@@ -16,7 +17,9 @@ interface IBoard
 	
 	function setWinnerLine(line:LineVO):Void;
 	
-	function getEmptyCellCount():UInt;
+	function getBoard():BoardVO;
 	
 	function getSize():Size;
+	
+	function getFreeCellCount():UInt;
 }

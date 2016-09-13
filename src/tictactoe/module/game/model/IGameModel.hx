@@ -11,4 +11,6 @@ interface IGameModel extends IGameModelRO
   
   function setActivePlayer(index:UInt):IPlayer;
   
+  function setDraw():Void;
+  
 }

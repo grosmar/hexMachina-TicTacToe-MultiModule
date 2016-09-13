@@ -9,4 +9,6 @@ interface IGameModelListener
 	function onPlayerListUpdate(playerList:Array<IPlayer>):Void;
 	
 	function onActivePlayerChange(player:IPlayer):Void;
+	
+	function onDraw():Void;
 }

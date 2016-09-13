@@ -155,18 +155,18 @@ class BoardEvaluator
 		{
 			for ( j in 0...(width - board.successLineCount + 1) )
 			{	
-				lastDiagonalSign = board.board[i][width-j];
+				lastDiagonalSign = board.board[height-i-1][j];
 				
 				if ( lastDiagonalSign == null )
 				{
 					continue;
 				}
 				
-				diagonalList = [new Point(width-j, i)];
+				diagonalList = [new Point(j, height-i-1)];
 				
 				for ( k in 1...board.successLineCount )
 				{
-					var cell:String = board.board[i+k][width-j-k];
+					var cell:String = board.board[height-i-k-1][j+k];
 					
 					if ( cell != lastDiagonalSign )
 					{
@@ -174,7 +174,7 @@ class BoardEvaluator
 					}
 					else
 					{
-						diagonalList.push( new Point(width-j-k, i+k) );
+						diagonalList.push( new Point(j+k, height-i-k-1) );
 					}
 				}
 				

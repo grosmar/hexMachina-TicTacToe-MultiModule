@@ -12,6 +12,7 @@ import tictactoe.module.board.controller.IBoardController;
 import tictactoe.module.board.model.BoardModel;
 import tictactoe.module.board.model.IBoardModel;
 import tictactoe.module.board.view.IBoardView;
+import tictactoe.vo.BoardVO;
 import tictactoe.vo.LineVO;
 
 /**
@@ -52,14 +53,19 @@ class BoardModule extends Module implements IBoard
 		return this._get( IBoardController ).getFullLine( );
 	}
 	
-	public function getEmptyCellCount():UInt 
+	public function getBoard():BoardVO 
 	{
-		return this._get( IBoardModel ).getEmptyCellCount( );
+		return this._get( IBoardModel ).getBoard( );
 	}
 	
 	public function getSize():Size
 	{
 		return this._get( IBoardModel ).getSize( );
+	}
+	
+	public function getFreeCellCount():UInt
+	{
+		return this._get( IBoardModel ).getFreeCellCount( );
 	}
 	
 	override function _getRuntimeDependencies():IRuntimeDependencies 

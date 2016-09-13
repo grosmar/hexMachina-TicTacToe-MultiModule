@@ -59,9 +59,14 @@ class BoardModel extends BasicModel<BoardModelDispatcher, IBoardModelListener> i
 	}
 	
 	
-	public function getEmptyCellCount():UInt 
+	public function getBoard():BoardVO
 	{
-		return 0; //TODO: implement or remove
+		return this.board.clone();
+	}
+	
+	public function getFreeCellCount():UInt
+	{
+		return this.board.getFreeCellCount();
 	}
 	
 	

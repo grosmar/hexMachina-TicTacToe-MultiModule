@@ -13,7 +13,5 @@ interface IBoardModel extends IBoardModelRO
   
   function setBoardPoint(point:Point, sign:String):Void;
   
-  function getFullLine():LineVO;
-  
   function setWinnerLine(line:LineVO):Void;
 }

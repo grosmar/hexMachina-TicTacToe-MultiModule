@@ -60,9 +60,13 @@ class GameController implements IGameController implements IInjectorContainer
 				trace("Game Over. Winner: " + line.sign);
 				this.board.setWinnerLine( line );
 			}
-			else
+			else if ( this.board.getFreeCellCount() > 0 )
 			{
 				this.nextPlayer();
+			}
+			else
+			{
+				this.model.setDraw( );
 			}
 		}
 		else

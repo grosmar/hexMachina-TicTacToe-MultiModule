@@ -31,7 +31,6 @@ class ActivePlayerIndicatorView implements IActivePlayerIndicatorView implements
 	@PostConstruct
 	public function init():Void
 	{
-		trace("init");
 		this.model.addListener(this);
 	}
 	
@@ -44,8 +43,8 @@ class ActivePlayerIndicatorView implements IActivePlayerIndicatorView implements
 		{
 			var sign:String = playerList[i].getSign();
 			var li:UListElement = cast Browser.document.createElement("li");
-			li.classList.add("js-player-turn", "is-" + sign);
-			li.innerHTML = '<div class="turn-player"><div class="$sign"></div></div><span class="js-player-score score">0</span>';
+			li.classList.add("player");
+			li.innerHTML = '<div class="turn-player">' + sign.toUpperCase() + '</div>';
 			this.playerList.set(sign, li);
 			
 			container.appendChild( li );
@@ -54,7 +53,6 @@ class ActivePlayerIndicatorView implements IActivePlayerIndicatorView implements
 	
 	public function setActivePlayer(sign:String):Void 
 	{
-		trace("TADAA", sign);
 		if ( this.activePlayer != null )
 		{
 			this.activePlayer.classList.remove("is-selected");
@@ -74,9 +72,6 @@ class ActivePlayerIndicatorView implements IActivePlayerIndicatorView implements
 	{
 		this.setActivePlayer( player.getSign() );
 	}
-	
-	
-	/* INTERFACE tictactoe.module.game.model.IGameModelListener */
 	
 	public function onDraw():Void 
 	{

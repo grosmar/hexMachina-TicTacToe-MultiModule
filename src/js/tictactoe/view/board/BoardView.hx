@@ -48,7 +48,6 @@ class BoardView extends BasicView implements IBoardView implements IBoardModelLi
 			for (j in 0...Std.int(size.width)) 
 			{
 				var tc:Element = tr.insertCell();
-				tc.classList.add("tic-tac-toe-table-cell", "js-cell");
 			}
         }
     }
@@ -56,8 +55,8 @@ class BoardView extends BasicView implements IBoardView implements IBoardModelLi
 	public function setBoardCell( point:Point, sign:String ):Void
 	{
 		var cell = cast(this.container.rows.item(point.y), TableRowElement).cells.item(point.x);
-		cell.classList.add("is-filled");
-		cell.innerHTML = "<div class=\"" + sign + "\"></div>";
+		//cell.classList.add("is-filled");
+		cell.innerHTML = sign.toUpperCase();
 	}
 	
 	public function setWinnerLine( line:LineVO ):Void

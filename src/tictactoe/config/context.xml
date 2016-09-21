@@ -4,8 +4,9 @@
 	
 	<module id="gameModule" type="tictactoe.module.game.GameModule">
 		<argument ref="userPlayer1" />
-		<!--<argument ref="userPlayer2" />-->
 		<argument ref="aiPlayer1" />
+		<!--<argument ref="userPlayer2" />-->
+		
 		<argument ref="boardModule" />
 		<argument ref="activePlayerIndicatorView" />
 	</module>
@@ -51,7 +52,7 @@
 	
 	
 	<div id="activePlayerIndicatorDiv" type="js.Browser" static-ref="document" factory="querySelector">
-		<argument value=".turn-display"/>
+		<argument value=".player-list"/>
 	</div>
 	<view id="activePlayerIndicatorView" type="js.tictactoe.view.game.ActivePlayerIndicatorView">
 		<argument ref="activePlayerIndicatorDiv" />
@@ -60,7 +61,7 @@
 	
 	
 	<bean id="boardSize" type="hex.structures.Size">
-		<argument value="5" type="Float" />
-		<argument value="5" type="Float" />
+		<argument value="3" type="Float" />
+		<argument value="3" type="Float" />
 	</bean>
 </data>

@@ -18,7 +18,7 @@ import tictactoe.module.game.view.IActivePlayerIndicatorView;
 class GameModule extends Module
 {
 
-	public function new(player1:IPlayer, player2:IPlayer, player3:IPlayer, board:IBoard, ?activePlayerIndicatorView:IActivePlayerIndicatorView) 
+	public function new(board:IBoard, ?activePlayerIndicatorView:IActivePlayerIndicatorView, player1:IPlayer, ?player2:IPlayer, ?player3:IPlayer, ?player4:IPlayer, ?player5:IPlayer) 
 	{
 		super();
 		this._injector.mapToValue( IBoard, board );
@@ -30,7 +30,12 @@ class GameModule extends Module
 			this._injector.injectInto(activePlayerIndicatorView);
 		}
 		
-		this._get( IGameController ).setPlayerList( [player1, player2, player3] );
+		var playerList:Array<IPlayer> = [player1];
+		if ( player2 != null ) playerList.push( player2 );
+		if ( player3 != null ) playerList.push( player3 );
+		if ( player4 != null ) playerList.push( player4 );
+		if ( player5 != null ) playerList.push( player5 );
+		this._get( IGameController ).setPlayerList( playerList );
 	}
 	
 	override function _getRuntimeDependencies():IRuntimeDependencies 

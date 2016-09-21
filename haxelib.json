@@ -7,6 +7,6 @@
   "version": "1.0"
   "dependencies": 
   {
-	"hexmaxhina": "git:https://github.com/DoclerLabs/hexMachina.git"
+	"hexmaxhina": "0.6.0"
   }
 }

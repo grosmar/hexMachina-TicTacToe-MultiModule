@@ -36,7 +36,7 @@ class BoardVO
 		{
 			for ( j in 0...Std.int(this.size.width) )
 			{
-				s += this.board[i][j] != null ? this.board[i][j] : " ";
+				s += this.board[i][j] != null ? this.board[i][j] : ".";
 			}
 			
 			s += "\n";

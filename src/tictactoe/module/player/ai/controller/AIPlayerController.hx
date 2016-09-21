@@ -13,7 +13,8 @@ import tictactoe.vo.BoardVO;
 import tictactoe.vo.LineVO;
 
 /**
- * ...
+ * AI Controller to make AI movements.
+ * TODO: minimax is useless for tables bigger than 3x3, so need to implement Alpha Beta algo
  * @author duke
  */
 class AIPlayerController implements IAIPlayerController implements IInjectorContainer
@@ -43,43 +44,10 @@ class AIPlayerController implements IAIPlayerController implements IInjectorCont
 	
 	function aiChoose():Void
 	{
-		//this.playerTurnResponder.complete( this.getMove() );
-		this.playerTurnResponder.complete( this.getMove2() );
+		this.playerTurnResponder.complete( this.getMove() );
 	}
-	/*
-	function getMove3(depth:Int, turn:Int):Point
-	{
-        if (hasXWon()) return +1; 
-        if (hasOWon()) return -1;
-
-        List<Point> pointsAvailable = getAvailableStates();
-        if (pointsAvailable.isEmpty()) return 0; 
- 
-        int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
-         
-        for (int i = 0; i < pointsAvailable.size(); ++i) {  
-            Point point = pointsAvailable.get(i);   
-            if (turn == 1) { 
-                placeAMove(point, 1); 
-                int currentScore = minimax(depth + 1, 2);
-                max = Math.max(currentScore, max);
-                
-                if(depth == 0)System.out.println("Score for position "+(i+1)+" = "+currentScore);
-                if(currentScore >= 0){ if(depth == 0) computersMove = point;} 
-                if(currentScore == 1){board[point.x][point.y] = 0; break;} 
-                if(i == pointsAvailable.size()-1 && max < 0){if(depth == 0)computersMove = point;}
-            } else if (turn == 2) {
-                placeAMove(point, 2); 
-                int currentScore = minimax(depth + 1, 1);
-                min = Math.min(currentScore, min); 
-                if(min == -1){board[point.x][point.y] = 0; break;}
-            }
-            board[point.x][point.y] = 0; //Reset this point
-        } 
-        return turn == 1?max:min;
-	}*/
 	
-	function getMove2():Point
+	function getMove():Point
 	{
 		var bestVal = -1000;
 		var bestMove:Point = new Point(-1,-1);
@@ -226,110 +194,11 @@ class AIPlayerController implements IAIPlayerController implements IInjectorCont
 		return null;
 	}
 	
-	/*
-	private function getMove():Point
-    {
-        var move:Point = null;
-		var score:Int = -2;
-		
-		var board:BoardVO = this.board.getBoard();
-		
-		var width:UInt = Std.int(board.size.width);
-		var height:UInt = Std.int(board.size.height);
-			
-		for ( i in 0...height) 
-		{
-			for ( j in 0...width)
-			{
-				if ( board.board[i][j] == null ) 
-				{
-					board.board[i][j] = this.model.getPlayerSign();
-					var tempScore:Int = -this.minimax(board, this.getOpositeSign(), 0);
-					board.board[i][j] = null;
-					
-					if (tempScore > score) 
-					{
-						score = tempScore;
-						move = new Point(j, i);
-					}
-				}
-			}
-		}
-		//returns a score based on minimax tree at a given node.
-		return move;
-    }
 	
-	function minimax(board:BoardVO, player:String, depth:UInt):Int
-	{
-		//How is the position like for player (their turn) on board?
-		
-		depth++;
-		
-		if ( depth == 20 )
-		{
-			return 0;
-		}
-		
-		var winData = BoardEvaluator.getFullLine(board);
-		
-		if (winData != null )
-		{
-			var winner:Int = winData.sign == player ? 1 : -1;
-			
-			return depth * winner * this.getPlayerValue(player);
-		}
-		
-		var move:Point = null;
-		var score:Int = -depth;//Losing moves are preferred to no move
-		
-		//For all moves,
-		var width:UInt = Std.int(board.size.width);
-		var height:UInt = Std.int(board.size.height);
-			
-		for ( i in 0...height) 
-		{
-			for ( j in 0...width)
-			{
-				if (board.board[i][j] == null) 
-				{//If legal,
-					board.board[i][j] = player;//Try the move
-					var thisScore:Int = -this.minimax(board, this.invertSign(player), depth);
-					
-					if (thisScore > score) 
-					{
-						//trace(board);
-						//trace(depth, player, thisScore, score, this.getPlayerValue(player));
-						score = thisScore;
-						move = new Point(j, i);
-						
-					}//Pick the one that's worst for the opponent
-					
-					board.board[i][j] = null;//Reset board after try
-				}
-			}
-		}
-		
-		if (move == null) 
-		{
-			return 0;
-		}
-		
-		return score;
-	}*/
-	
-	function getPlayerValue( player:String ):Int
-	{
-		return player == this.model.getPlayerSign() ? 1 : -1;
-	}
 	
 	function getOpositeSign( ):String
 	{
 		return this.model.getPlayerSign() == "x" ? "o" : "x";
-	}
-	
-	function invertSign( sign:String ):String
-	{
-		return sign == "x" ? "o" : "x";
 	}
 	
 }

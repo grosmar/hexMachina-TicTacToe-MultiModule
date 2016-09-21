@@ -10,6 +10,8 @@ This is just a simple example how a simple game like tic-tac-toe can made modula
 1. Execute `haxe build.hxml`
 2. Run bin/index.html
 
+As an alternative you can use [HaxeDevelop](http://haxedevelop.org) with the TicTacToe.hxproj project file.
+
 #Customize
 Change board size by changing in context.xml boardSize node (by default 3x3):
 ```

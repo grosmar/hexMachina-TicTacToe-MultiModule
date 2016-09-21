@@ -11,14 +11,14 @@ This is just a simple example how a simple game like tic-tac-toe can made modula
 2. Run bin/index.html
 
 #Customize
-Change board size by changing in context.xml boardSize node:
+Change board size by changing in context.xml boardSize node (by default 3x3):
 ```
     <bean id="boardSize" type="hex.structures.Size">
 	    <argument value="3" type="Float" />
     	<argument value="3" type="Float" />
     </bean>
 ```
-Change player signs:
+Change player signs (in this example x parameter):
 ```
     <module id="userPlayer1" type="tictactoe.module.player.user.UserPlayerModule">
 		<argument ref="userPlayerView" />

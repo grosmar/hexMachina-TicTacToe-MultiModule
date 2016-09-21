@@ -4,8 +4,9 @@
 	
 	<module id="gameModule" type="tictactoe.module.game.GameModule">
 		<argument ref="userPlayer1" />
-		<argument ref="aiPlayer1" />
-		<!--<argument ref="userPlayer2" />-->
+		<!--<argument ref="aiPlayer1" />-->
+		<argument ref="userPlayer2" />
+		<argument ref="userPlayer3" />
 		
 		<argument ref="boardModule" />
 		<argument ref="activePlayerIndicatorView" />
@@ -18,14 +19,20 @@
 	</module>
 	
 	<module id="userPlayer1" type="tictactoe.module.player.user.UserPlayerModule">
-		<argument ref="userPlayerView1" />
+		<argument ref="userPlayerView" />
 		<argument value="x" />
 		<argument ref="boardModule" />
 	</module>
 	
 	<module id="userPlayer2" type="tictactoe.module.player.user.UserPlayerModule">
-		<argument ref="userPlayerView2" />
+		<argument ref="userPlayerView" />
 		<argument value="o" />
+		<argument ref="boardModule" />
+	</module>
+	
+	<module id="userPlayer3" type="tictactoe.module.player.user.UserPlayerModule">
+		<argument ref="userPlayerView" />
+		<argument value="r" />
 		<argument ref="boardModule" />
 	</module>
 	
@@ -42,11 +49,7 @@
 		<argument ref="boardViewDiv" />
 	</view>
 	
-	<view id="userPlayerView1" type="js.tictactoe.view.player.user.UserPlayerView">
-		<argument ref="boardViewDiv" />
-	</view>
-	
-	<view id="userPlayerView2" type="js.tictactoe.view.player.user.UserPlayerView">
+	<view id="userPlayerView" type="js.tictactoe.view.player.user.UserPlayerView">
 		<argument ref="boardViewDiv" />
 	</view>
 	
@@ -61,7 +64,7 @@
 	
 	
 	<bean id="boardSize" type="hex.structures.Size">
-		<argument value="3" type="Float" />
-		<argument value="3" type="Float" />
+		<argument value="5" type="Float" />
+		<argument value="5" type="Float" />
 	</bean>
 </data>

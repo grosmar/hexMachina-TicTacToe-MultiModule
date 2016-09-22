@@ -33,7 +33,6 @@ class GameController implements IGameController implements IInjectorContainer
 	{
 		var actIndex:UInt = this.model.getAcivePlayerIndex( );
 		var length:UInt = this.model.getPlayerListLength( );
-		trace(actIndex, length);
 		var nextIndex:UInt = actIndex < length - 1 ? actIndex+1 : 0;
 		this.setActivePlayer( nextIndex );
 	}

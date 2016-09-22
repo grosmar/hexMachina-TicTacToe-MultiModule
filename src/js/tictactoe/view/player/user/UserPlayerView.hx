@@ -62,7 +62,6 @@ class UserPlayerView implements IUserPlayerView
 		var target:TableCellElement = cast e.currentTarget;
 		
 		this.removeListeners( );
-		trace( target.cellIndex, cast(target.parentNode, TableRowElement).rowIndex );
 		this.responder.complete( new Point( target.cellIndex, cast(target.parentNode, TableRowElement).rowIndex ) );
 	}
 	

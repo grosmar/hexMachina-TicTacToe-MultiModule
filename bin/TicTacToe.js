@@ -1322,25 +1322,6 @@ hex_config_stateless_IStatelessConfig.prototype = {
 var hex_di_IInjectorContainer = function() { };
 $hxClasses["hex.di.IInjectorContainer"] = hex_di_IInjectorContainer;
 hex_di_IInjectorContainer.__name__ = ["hex","di","IInjectorContainer"];
-var hex_di_IBasicInjector = function() { };
-$hxClasses["hex.di.IBasicInjector"] = hex_di_IBasicInjector;
-hex_di_IBasicInjector.__name__ = ["hex","di","IBasicInjector"];
-hex_di_IBasicInjector.prototype = {
-	__class__: hex_di_IBasicInjector
-};
-var hex_di_IDependencyInjector = function() { };
-$hxClasses["hex.di.IDependencyInjector"] = hex_di_IDependencyInjector;
-hex_di_IDependencyInjector.__name__ = ["hex","di","IDependencyInjector"];
-hex_di_IDependencyInjector.__interfaces__ = [hex_di_IBasicInjector];
-hex_di_IDependencyInjector.prototype = {
-	__class__: hex_di_IDependencyInjector
-};
-var hex_control_IFrontController = function() { };
-$hxClasses["hex.control.IFrontController"] = hex_control_IFrontController;
-hex_control_IFrontController.__name__ = ["hex","control","IFrontController"];
-hex_control_IFrontController.prototype = {
-	__class__: hex_control_IFrontController
-};
 var hex_config_stateless_StatelessModuleConfig = function() {
 };
 $hxClasses["hex.config.stateless.StatelessModuleConfig"] = hex_config_stateless_StatelessModuleConfig;
@@ -1419,6 +1400,12 @@ hex_control_AsyncResponder.prototype = {
 		} else throw new js__$Boot_HaxeError(new hex_error_IllegalStateException("this instance has already failed",{ fileName : "AsyncResponder.hx", lineNumber : 86, className : "hex.control.AsyncResponder", methodName : "fail"}));
 	}
 	,__class__: hex_control_AsyncResponder
+};
+var hex_control_IFrontController = function() { };
+$hxClasses["hex.control.IFrontController"] = hex_control_IFrontController;
+hex_control_IFrontController.__name__ = ["hex","control","IFrontController"];
+hex_control_IFrontController.prototype = {
+	__class__: hex_control_IFrontController
 };
 var hex_control_FrontController = function(facadeDispatcher,injector,module) {
 	hex_collection_Locator.call(this);
@@ -1648,13 +1635,13 @@ hex_control_async_AsyncCommand.prototype = {
 		var msg = "";
 		if(this.get_isRunning()) msg = "'execute' call failed. This command is already processing."; else if(this.get_isCancelled()) msg = "'execute' call failed. This command is cancelled."; else if(this.get_hasCompleted()) msg = "'execute' call failed. This command is completed and can't be executed twice."; else if(this.get_hasFailed()) msg = "'execute' call failed. This command has failed and can't be executed twice."; else if(!this.get_wasUsed()) msg = "'execute' call failed. 'preExecute' should be called before.";
 		this._release();
-		throw new js__$Boot_HaxeError(new hex_error_IllegalStateException(msg,{ fileName : "AsyncCommand.hx", lineNumber : 239, className : "hex.control.async.AsyncCommand", methodName : "_throwExecutionIllegalStateError"}));
+		throw new js__$Boot_HaxeError(new hex_error_IllegalStateException(msg,{ fileName : "AsyncCommand.hx", lineNumber : 240, className : "hex.control.async.AsyncCommand", methodName : "_throwExecutionIllegalStateError"}));
 	}
 	,_throwIllegalStateError: function(process) {
 		var msg = "";
 		if(this.get_isCancelled()) msg = "'" + process + "' call failed in '" + hex_log_Stringifier.stringify(this) + "'. This command was already cancelled."; else if(this.get_hasCompleted()) msg = "'" + process + "' call failed in '" + hex_log_Stringifier.stringify(this) + "'. This command was already completed."; else if(this.get_hasFailed()) msg = "'" + process + "' call failed in '" + hex_log_Stringifier.stringify(this) + "'. This command has already failed.";
 		this._release();
-		throw new js__$Boot_HaxeError(new hex_error_IllegalStateException(msg,{ fileName : "AsyncCommand.hx", lineNumber : 260, className : "hex.control.async.AsyncCommand", methodName : "_throwIllegalStateError"}));
+		throw new js__$Boot_HaxeError(new hex_error_IllegalStateException(msg,{ fileName : "AsyncCommand.hx", lineNumber : 261, className : "hex.control.async.AsyncCommand", methodName : "_throwIllegalStateError"}));
 	}
 	,_release: function() {
 		this._removeAllListeners();
@@ -1816,9 +1803,9 @@ hex_control_command_CommandMapping.prototype = {
 	,get_hasMappingResult: function() {
 		return this._mappingResults != null;
 	}
-	,withMappingResults: function(mappingResults) {
+	,withMappingResult: function(mappingResult) {
 		if(this._mappingResults == null) this._mappingResults = [];
-		this._mappingResults = this._mappingResults.concat(mappingResults);
+		this._mappingResults.push(mappingResult);
 		return this;
 	}
 	,setLastCommandInstance: function(command) {
@@ -1896,7 +1883,7 @@ hex_control_macro_Macro.prototype = $extend(hex_control_async_AsyncCommand.proto
 	}
 	,preExecute: function(request) {
 		if(this.macroExecutor != null) this.macroExecutor.setAsyncCommandListener(this); else throw new js__$Boot_HaxeError(new hex_error_NullPointerException("macroExecutor can't be null in '" + hex_log_Stringifier.stringify(this) + "'",{ fileName : "Macro.hx", lineNumber : 47, className : "hex.control.macro.Macro", methodName : "preExecute"}));
-		this._request = request;
+		if(request != null) this._request = request;
 		this._prepare();
 		hex_control_async_AsyncCommand.prototype.preExecute.call(this,request);
 	}
@@ -2137,11 +2124,24 @@ hex_data_IParser.__name__ = ["hex","data","IParser"];
 hex_data_IParser.prototype = {
 	__class__: hex_data_IParser
 };
+var hex_di_IBasicInjector = function() { };
+$hxClasses["hex.di.IBasicInjector"] = hex_di_IBasicInjector;
+hex_di_IBasicInjector.__name__ = ["hex","di","IBasicInjector"];
+hex_di_IBasicInjector.prototype = {
+	__class__: hex_di_IBasicInjector
+};
 var hex_di_IContextOwner = function() { };
 $hxClasses["hex.di.IContextOwner"] = hex_di_IContextOwner;
 hex_di_IContextOwner.__name__ = ["hex","di","IContextOwner"];
 hex_di_IContextOwner.prototype = {
 	__class__: hex_di_IContextOwner
+};
+var hex_di_IDependencyInjector = function() { };
+$hxClasses["hex.di.IDependencyInjector"] = hex_di_IDependencyInjector;
+hex_di_IDependencyInjector.__name__ = ["hex","di","IDependencyInjector"];
+hex_di_IDependencyInjector.__interfaces__ = [hex_di_IBasicInjector];
+hex_di_IDependencyInjector.prototype = {
+	__class__: hex_di_IDependencyInjector
 };
 var hex_event_IEvent = function() { };
 $hxClasses["hex.event.IEvent"] = hex_event_IEvent;
@@ -2228,7 +2228,7 @@ hex_di_Injector.prototype = {
 	,instantiateUnmapped: function(type) {
 		var classDescription = this._classDescriptor.getClassDescription(type);
 		var instance;
-		if(classDescription != null && classDescription.constructorInjection != null) instance = Type.createInstance(type,hex_di_reflect_InjectionUtil.gatherArgs(type,this,classDescription.constructorInjection.args,"new")); else instance = Type.createInstance(type,[]);
+		if(classDescription != null && classDescription.c != null) instance = Type.createInstance(type,hex_di_reflect_InjectionUtil.gatherArgs(type,this,classDescription.c.a,"new")); else instance = Type.createInstance(type,[]);
 		this._ed.dispatchEvent(new hex_di_InjectionEvent("onPostInstantiate",this,instance,type));
 		if(classDescription != null) this._applyInjection(instance,type,classDescription);
 		return instance;
@@ -2280,11 +2280,11 @@ hex_di_Injector.prototype = {
 		var classDescription = this._classDescriptor.getClassDescription(Type.getClass(instance));
 		if(classDescription != null) {
 			var _g = 0;
-			var _g1 = classDescription.preDestroy;
+			var _g1 = classDescription.pd;
 			while(_g < _g1.length) {
 				var preDestroy = _g1[_g];
 				++_g;
-				hex_di_reflect_InjectionUtil.applyMethodInjection(instance,this,preDestroy.args,preDestroy.methodName);
+				hex_di_reflect_InjectionUtil.applyMethodInjection(instance,this,preDestroy.a,preDestroy.m);
 			}
 		}
 	}
@@ -2328,7 +2328,7 @@ hex_di_Injector.prototype = {
 	,_applyInjection: function(target,targetType,classDescription) {
 		this._ed.dispatchEvent(new hex_di_InjectionEvent("onPreConstruct",this,target,targetType));
 		hex_di_reflect_InjectionUtil.applyClassInjection(target,this,classDescription);
-		if(classDescription.preDestroy.length > 0) this._managedObjects.put(target,target);
+		if(classDescription.pd.length > 0) this._managedObjects.put(target,target);
 		this._ed.dispatchEvent(new hex_di_InjectionEvent("onPostConstruct",this,target,targetType));
 	}
 	,_getMappingID: function(type,name) {
@@ -2489,7 +2489,7 @@ $hxClasses["hex.di.reflect.ClassDescriptionProvider"] = hex_di_reflect_ClassDesc
 hex_di_reflect_ClassDescriptionProvider.__name__ = ["hex","di","reflect","ClassDescriptionProvider"];
 hex_di_reflect_ClassDescriptionProvider.__interfaces__ = [hex_di_reflect_IClassDescriptionProvider];
 hex_di_reflect_ClassDescriptionProvider._sort = function(a,b) {
-	return a.order - b.order;
+	return a.o - b.o;
 };
 hex_di_reflect_ClassDescriptionProvider.prototype = {
 	getClassDescription: function(type) {
@@ -2505,7 +2505,7 @@ hex_di_reflect_ClassDescriptionProvider.prototype = {
 			while(_g1 < _g2.length) {
 				var prop = _g2[_g1];
 				++_g1;
-				_g.push({ propertyName : prop.name, propertyType : Type.resolveClass(prop.type), injectionName : prop.key, isOptional : prop.isOpt});
+				_g.push({ p : prop.name, t : prop.type, n : prop.key, o : prop.isOpt});
 			}
 			properties = _g;
 			var methods = [];
@@ -2523,10 +2523,10 @@ hex_di_reflect_ClassDescriptionProvider.prototype = {
 				while(_g4 < _g5.length) {
 					var arg = _g5[_g4];
 					++_g4;
-					_g3.push({ type : Type.resolveClass(arg.type), injectionName : arg.key, isOptional : arg.isOpt});
+					_g3.push({ t : arg.type, n : arg.key, o : arg.isOpt});
 				}
 				$arguments = _g3;
-				if(method.isPost) postConstruct.push({ methodName : method.name, args : $arguments, order : method.order}); else if(method.isPre) preDestroy.push({ methodName : method.name, args : $arguments, order : method.order}); else methods.push({ methodName : method.name, args : $arguments});
+				if(method.isPost) postConstruct.push({ m : method.name, a : $arguments, o : method.order}); else if(method.isPre) preDestroy.push({ m : method.name, a : $arguments, o : method.order}); else methods.push({ m : method.name, a : $arguments});
 			}
 			if(postConstruct.length > 0) haxe_ds_ArraySort.sort(postConstruct,hex_di_reflect_ClassDescriptionProvider._sort);
 			if(preDestroy.length > 0) haxe_ds_ArraySort.sort(preDestroy,hex_di_reflect_ClassDescriptionProvider._sort);
@@ -2538,11 +2538,11 @@ hex_di_reflect_ClassDescriptionProvider.prototype = {
 			while(_g22 < _g31.length) {
 				var arg1 = _g31[_g22];
 				++_g22;
-				_g12.push({ type : Type.resolveClass(arg1.type), injectionName : arg1.key, isOptional : arg1.isOpt});
+				_g12.push({ t : arg1.type, n : arg1.key, o : arg1.isOpt});
 			}
 			ctorArguments = _g12;
-			var constructorInjection = { methodName : "new", args : ctorArguments};
-			return { constructorInjection : constructorInjection, properties : properties, methods : methods, postConstruct : postConstruct, preDestroy : preDestroy};
+			var constructorInjection = { a : ctorArguments};
+			return { c : constructorInjection, p : properties, m : methods, pc : postConstruct, pd : preDestroy};
 		} else return null;
 	}
 	,__class__: hex_di_reflect_ClassDescriptionProvider
@@ -2554,7 +2554,7 @@ hex_di_reflect_FastClassDescriptionProvider.__name__ = ["hex","di","reflect","Fa
 hex_di_reflect_FastClassDescriptionProvider.__interfaces__ = [hex_di_reflect_IClassDescriptionProvider];
 hex_di_reflect_FastClassDescriptionProvider.prototype = {
 	getClassDescription: function(type) {
-		if(type == null) throw new js__$Boot_HaxeError(new hex_error_NullPointerException("",{ fileName : "FastClassDescriptionProvider.hx", lineNumber : 21, className : "hex.di.reflect.FastClassDescriptionProvider", methodName : "getClassDescription"}));
+		if(type == null) throw new js__$Boot_HaxeError(new hex_error_NullPointerException("type cannot be null",{ fileName : "FastClassDescriptionProvider.hx", lineNumber : 21, className : "hex.di.reflect.FastClassDescriptionProvider", methodName : "getClassDescription"}));
 		return Reflect.getProperty(type,"__INJECTION_DATA");
 	}
 	,__class__: hex_di_reflect_FastClassDescriptionProvider
@@ -2565,25 +2565,25 @@ $hxClasses["hex.di.reflect.InjectionUtil"] = hex_di_reflect_InjectionUtil;
 hex_di_reflect_InjectionUtil.__name__ = ["hex","di","reflect","InjectionUtil"];
 hex_di_reflect_InjectionUtil.applyClassInjection = function(target,injector,classDescription) {
 	var _g = 0;
-	var _g1 = classDescription.properties;
+	var _g1 = classDescription.p;
 	while(_g < _g1.length) {
 		var property = _g1[_g];
 		++_g;
-		hex_di_reflect_InjectionUtil.applyPropertyInjection(property.propertyName,property.propertyType,property.injectionName,property.isOptional,target,injector);
+		hex_di_reflect_InjectionUtil.applyPropertyInjection(property.p,property.t,property.n,property.o,target,injector);
 	}
 	var _g2 = 0;
-	var _g11 = classDescription.methods;
+	var _g11 = classDescription.m;
 	while(_g2 < _g11.length) {
 		var method = _g11[_g2];
 		++_g2;
-		hex_di_reflect_InjectionUtil.applyMethodInjection(target,injector,method.args,method.methodName);
+		hex_di_reflect_InjectionUtil.applyMethodInjection(target,injector,method.a,method.m);
 	}
 	var _g3 = 0;
-	var _g12 = classDescription.postConstruct;
+	var _g12 = classDescription.pc;
 	while(_g3 < _g12.length) {
 		var postConstruct = _g12[_g3];
 		++_g3;
-		hex_di_reflect_InjectionUtil.applyMethodInjection(target,injector,postConstruct.args,postConstruct.methodName);
+		hex_di_reflect_InjectionUtil.applyMethodInjection(target,injector,postConstruct.a,postConstruct.m);
 	}
 	return target;
 };
@@ -2593,8 +2593,8 @@ hex_di_reflect_InjectionUtil.applyConstructorInjection = function(type,injector,
 hex_di_reflect_InjectionUtil.applyPropertyInjection = function(propertyName,propertyType,injectionName,isOptional,target,injector) {
 	if(isOptional == null) isOptional = false;
 	if(injectionName == null) injectionName = "";
-	var provider = injector.getProvider(propertyType,injectionName);
-	if(provider != null) Reflect.setProperty(target,propertyName,provider.getResult(injector)); else if(!isOptional) throw new js__$Boot_HaxeError(new hex_di_error_MissingMappingException("'" + hex_log_Stringifier.stringify(injector) + "' is missing a mapping to inject into property named '" + propertyName + "' with type '" + Type.getClassName(propertyType) + "' inside instance of '" + hex_log_Stringifier.stringify(target) + "'. Target dependency: '" + Type.getClassName(propertyType) + "|" + injectionName + "'",{ fileName : "InjectionUtil.hx", lineNumber : 58, className : "hex.di.reflect.InjectionUtil", methodName : "applyPropertyInjection"}));
+	var provider = injector.getProvider(Type.resolveClass(propertyType),injectionName);
+	if(provider != null) Reflect.setProperty(target,propertyName,provider.getResult(injector)); else if(!isOptional) throw new js__$Boot_HaxeError(new hex_di_error_MissingMappingException("'" + hex_log_Stringifier.stringify(injector) + "' is missing a mapping to inject into property named '" + propertyName + "' with type '" + propertyType + "' inside instance of '" + hex_log_Stringifier.stringify(target) + "'. Target dependency: '" + propertyType + "|" + injectionName + "'",{ fileName : "InjectionUtil.hx", lineNumber : 58, className : "hex.di.reflect.InjectionUtil", methodName : "applyPropertyInjection"}));
 	return target;
 };
 hex_di_reflect_InjectionUtil.applyMethodInjection = function(target,injector,$arguments,methodName) {
@@ -2607,18 +2607,18 @@ hex_di_reflect_InjectionUtil.gatherArgs = function(target,injector,$arguments,me
 	while(_g < $arguments.length) {
 		var arg = $arguments[_g];
 		++_g;
-		var provider = injector.getProvider(arg.type,arg.injectionName);
-		if(provider != null) args.push(provider.getResult(injector)); else if(!arg.isOptional) {
-			if(methodName == "new") hex_di_reflect_InjectionUtil._throwMissingMappingConstructorException(target,arg.type,arg.injectionName,injector); else hex_di_reflect_InjectionUtil._throwMissingMappingException(target,arg.type,arg.injectionName,injector,methodName);
+		var provider = injector.getProvider(Type.resolveClass(arg.t),arg.n);
+		if(provider != null) args.push(provider.getResult(injector)); else if(!arg.o) {
+			if(methodName == "new") hex_di_reflect_InjectionUtil._throwMissingMappingConstructorException(target,arg.t,arg.n,injector); else hex_di_reflect_InjectionUtil._throwMissingMappingException(target,arg.t,arg.n,injector,methodName);
 		}
 	}
 	return args;
 };
 hex_di_reflect_InjectionUtil._throwMissingMappingException = function(target,type,injectionName,injector,methodName) {
-	throw new js__$Boot_HaxeError(new hex_di_error_MissingMappingException("'" + hex_log_Stringifier.stringify(injector) + "' is missing a mapping to inject argument into method named '" + methodName + "' with type '" + Type.getClassName(type) + "' inside instance of '" + hex_log_Stringifier.stringify(target) + "'. Target dependency: '" + Type.getClassName(type) + "|" + injectionName + "'",{ fileName : "InjectionUtil.hx", lineNumber : 104, className : "hex.di.reflect.InjectionUtil", methodName : "_throwMissingMappingException"}));
+	throw new js__$Boot_HaxeError(new hex_di_error_MissingMappingException("'" + hex_log_Stringifier.stringify(injector) + "' is missing a mapping to inject argument into method named '" + methodName + "' with type '" + type + "' inside instance of '" + hex_log_Stringifier.stringify(target) + "'. Target dependency: '" + type + "|" + injectionName + "'",{ fileName : "InjectionUtil.hx", lineNumber : 104, className : "hex.di.reflect.InjectionUtil", methodName : "_throwMissingMappingException"}));
 };
 hex_di_reflect_InjectionUtil._throwMissingMappingConstructorException = function(target,type,injectionName,injector) {
-	throw new js__$Boot_HaxeError(new hex_di_error_MissingMappingException("'" + hex_log_Stringifier.stringify(injector) + "' is missing a mapping to inject argument" + " with type '" + Type.getClassName(type) + "' into constructor of class '" + hex_log_Stringifier.stringify(target) + "'. Target dependency: '" + Type.getClassName(type) + "|" + injectionName + "'",{ fileName : "InjectionUtil.hx", lineNumber : 114, className : "hex.di.reflect.InjectionUtil", methodName : "_throwMissingMappingConstructorException"}));
+	throw new js__$Boot_HaxeError(new hex_di_error_MissingMappingException("'" + hex_log_Stringifier.stringify(injector) + "' is missing a mapping to inject argument" + " with type '" + type + "' into constructor of class '" + hex_log_Stringifier.stringify(target) + "'. Target dependency: '" + type + "|" + injectionName + "'",{ fileName : "InjectionUtil.hx", lineNumber : 114, className : "hex.di.reflect.InjectionUtil", methodName : "_throwMissingMappingConstructorException"}));
 };
 hex_di_reflect_InjectionUtil.prototype = {
 	__class__: hex_di_reflect_InjectionUtil
@@ -6578,7 +6578,10 @@ hex_view_viewhelper_ViewHelper.prototype = {
 		return this._view;
 	}
 	,set_view: function(view) {
-		if(!this._isPreInitialized) this._preInitialize();
+		if(!this._isPreInitialized) {
+			this._isPreInitialized = true;
+			this._preInitialize();
+		}
 		if(this.get_view() != null || view == null) this._internal.dispatch(hex_view_viewhelper_ViewHelperMessage.REMOVE_VIEW,[this,this._view]);
 		this._view = view;
 		if(view != null) {
@@ -6614,6 +6617,7 @@ hex_view_viewhelper_ViewHelper.prototype = {
 		return this._isVisible;
 	}
 	,release: function() {
+		this._release();
 		this._internal.dispatch(hex_view_viewhelper_ViewHelperMessage.RELEASE,[this]);
 		this._view = null;
 		this._internal.removeAllListeners();
@@ -6755,13 +6759,6 @@ tictactoe_module_board_view_IBoardView.__name__ = ["tictactoe","module","board",
 tictactoe_module_board_view_IBoardView.prototype = {
 	__class__: tictactoe_module_board_view_IBoardView
 };
-var tictactoe_module_board_model_IBoardModelRO = function() { };
-$hxClasses["tictactoe.module.board.model.IBoardModelRO"] = tictactoe_module_board_model_IBoardModelRO;
-tictactoe_module_board_model_IBoardModelRO.__name__ = ["tictactoe","module","board","model","IBoardModelRO"];
-tictactoe_module_board_model_IBoardModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$board_$model_$IBoardModelListener];
-tictactoe_module_board_model_IBoardModelRO.prototype = {
-	__class__: tictactoe_module_board_model_IBoardModelRO
-};
 var js_tictactoe_view_board_BoardView = function(container) {
 	hex_view_BasicView.call(this);
 	this.container = container;
@@ -6824,13 +6821,6 @@ $hxClasses["tictactoe.module.game.view.IActivePlayerIndicatorView"] = tictactoe_
 tictactoe_module_game_view_IActivePlayerIndicatorView.__name__ = ["tictactoe","module","game","view","IActivePlayerIndicatorView"];
 tictactoe_module_game_view_IActivePlayerIndicatorView.prototype = {
 	__class__: tictactoe_module_game_view_IActivePlayerIndicatorView
-};
-var tictactoe_module_game_model_IGameModelRO = function() { };
-$hxClasses["tictactoe.module.game.model.IGameModelRO"] = tictactoe_module_game_model_IGameModelRO;
-tictactoe_module_game_model_IGameModelRO.__name__ = ["tictactoe","module","game","model","IGameModelRO"];
-tictactoe_module_game_model_IGameModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$game_$model_$IGameModelListener];
-tictactoe_module_game_model_IGameModelRO.prototype = {
-	__class__: tictactoe_module_game_model_IGameModelRO
 };
 var js_tictactoe_view_game_ActivePlayerIndicatorView = function(container) {
 	this.playerList = new haxe_ds_StringMap();
@@ -6914,7 +6904,6 @@ js_tictactoe_view_player_user_UserPlayerView.prototype = {
 	,onClick: function(e) {
 		var target = e.currentTarget;
 		this.removeListeners();
-		haxe_Log.trace(target.cellIndex,{ fileName : "UserPlayerView.hx", lineNumber : 65, className : "js.tictactoe.view.player.user.UserPlayerView", methodName : "onClick", customParams : [(js_Boot.__cast(target.parentNode , HTMLTableRowElement)).rowIndex]});
 		this.responder.complete((function($this) {
 			var $r;
 			var y;
@@ -7062,13 +7051,6 @@ tictactoe_module_board_controller_IBoardController.__name__ = ["tictactoe","modu
 tictactoe_module_board_controller_IBoardController.prototype = {
 	__class__: tictactoe_module_board_controller_IBoardController
 };
-var tictactoe_module_board_model_IBoardModel = function() { };
-$hxClasses["tictactoe.module.board.model.IBoardModel"] = tictactoe_module_board_model_IBoardModel;
-tictactoe_module_board_model_IBoardModel.__name__ = ["tictactoe","module","board","model","IBoardModel"];
-tictactoe_module_board_model_IBoardModel.__interfaces__ = [tictactoe_module_board_model_IBoardModelRO];
-tictactoe_module_board_model_IBoardModel.prototype = {
-	__class__: tictactoe_module_board_model_IBoardModel
-};
 var tictactoe_module_board_controller_BoardController = function() { };
 $hxClasses["tictactoe.module.board.controller.BoardController"] = tictactoe_module_board_controller_BoardController;
 tictactoe_module_board_controller_BoardController.__name__ = ["tictactoe","module","board","controller","BoardController"];
@@ -7090,6 +7072,20 @@ tictactoe_module_board_controller_BoardController.prototype = {
 		this.model.setWinnerLine(line);
 	}
 	,__class__: tictactoe_module_board_controller_BoardController
+};
+var tictactoe_module_board_model_IBoardModelRO = function() { };
+$hxClasses["tictactoe.module.board.model.IBoardModelRO"] = tictactoe_module_board_model_IBoardModelRO;
+tictactoe_module_board_model_IBoardModelRO.__name__ = ["tictactoe","module","board","model","IBoardModelRO"];
+tictactoe_module_board_model_IBoardModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$board_$model_$IBoardModelListener];
+tictactoe_module_board_model_IBoardModelRO.prototype = {
+	__class__: tictactoe_module_board_model_IBoardModelRO
+};
+var tictactoe_module_board_model_IBoardModel = function() { };
+$hxClasses["tictactoe.module.board.model.IBoardModel"] = tictactoe_module_board_model_IBoardModel;
+tictactoe_module_board_model_IBoardModel.__name__ = ["tictactoe","module","board","model","IBoardModel"];
+tictactoe_module_board_model_IBoardModel.__interfaces__ = [tictactoe_module_board_model_IBoardModelRO];
+tictactoe_module_board_model_IBoardModel.prototype = {
+	__class__: tictactoe_module_board_model_IBoardModel
 };
 var tictactoe_module_board_model_BoardModel = function() {
 	hex_model_BasicModel_$tictactoe_$module_$board_$model_$_$BoardModel_$BoardModelDispatcher_$tictactoe_$module_$board_$model_$IBoardModelListener.call(this);
@@ -7209,13 +7205,6 @@ tictactoe_module_game_controller_IGameController.__name__ = ["tictactoe","module
 tictactoe_module_game_controller_IGameController.prototype = {
 	__class__: tictactoe_module_game_controller_IGameController
 };
-var tictactoe_module_game_model_IGameModel = function() { };
-$hxClasses["tictactoe.module.game.model.IGameModel"] = tictactoe_module_game_model_IGameModel;
-tictactoe_module_game_model_IGameModel.__name__ = ["tictactoe","module","game","model","IGameModel"];
-tictactoe_module_game_model_IGameModel.__interfaces__ = [tictactoe_module_game_model_IGameModelRO];
-tictactoe_module_game_model_IGameModel.prototype = {
-	__class__: tictactoe_module_game_model_IGameModel
-};
 var tictactoe_module_game_controller_GameController = function() { };
 $hxClasses["tictactoe.module.game.controller.GameController"] = tictactoe_module_game_controller_GameController;
 tictactoe_module_game_controller_GameController.__name__ = ["tictactoe","module","game","controller","GameController"];
@@ -7230,32 +7219,45 @@ tictactoe_module_game_controller_GameController.prototype = {
 	,nextPlayer: function() {
 		var actIndex = this.model.getAcivePlayerIndex();
 		var length = this.model.getPlayerListLength();
-		haxe_Log.trace(Std.string(_$UInt_UInt_$Impl_$.toFloat(actIndex)),{ fileName : "GameController.hx", lineNumber : 36, className : "tictactoe.module.game.controller.GameController", methodName : "nextPlayer", customParams : [length]});
 		var nextIndex;
 		if(_$UInt_UInt_$Impl_$.gt(length - 1,actIndex)) nextIndex = actIndex + 1; else nextIndex = 0;
 		this.setActivePlayer(nextIndex);
 	}
 	,setActivePlayer: function(index) {
-		haxe_Log.trace("setActivePlayer",{ fileName : "GameController.hx", lineNumber : 43, className : "tictactoe.module.game.controller.GameController", methodName : "setActivePlayer", customParams : [index]});
+		haxe_Log.trace("setActivePlayer",{ fileName : "GameController.hx", lineNumber : 42, className : "tictactoe.module.game.controller.GameController", methodName : "setActivePlayer", customParams : [index]});
 		var player = this.model.setActivePlayer(index);
 		player.setPlayerTurn().onComplete($bind(this,this.onPlayerChoose));
 	}
 	,onPlayerChoose: function(point) {
-		haxe_Log.trace("onPlayerChoose",{ fileName : "GameController.hx", lineNumber : 50, className : "tictactoe.module.game.controller.GameController", methodName : "onPlayerChoose", customParams : [point]});
+		haxe_Log.trace("onPlayerChoose",{ fileName : "GameController.hx", lineNumber : 49, className : "tictactoe.module.game.controller.GameController", methodName : "onPlayerChoose", customParams : [point]});
 		var player = this.model.getAcivePlayer();
 		if(this.board.getBoardPoint(point) == null) {
 			this.board.setBoardPoint(point,player.getSign());
 			var line = null;
 			if((line = this.board.getFullLine()) != null) {
-				haxe_Log.trace("Game Over. Winner: " + line.sign,{ fileName : "GameController.hx", lineNumber : 60, className : "tictactoe.module.game.controller.GameController", methodName : "onPlayerChoose"});
+				haxe_Log.trace("Game Over. Winner: " + line.sign,{ fileName : "GameController.hx", lineNumber : 59, className : "tictactoe.module.game.controller.GameController", methodName : "onPlayerChoose"});
 				this.board.setWinnerLine(line);
 			} else if(_$UInt_UInt_$Impl_$.gt(this.board.getFreeCellCount(),0)) this.nextPlayer(); else this.model.setDraw();
 		} else {
-			haxe_Log.trace("Board point already taken",{ fileName : "GameController.hx", lineNumber : 74, className : "tictactoe.module.game.controller.GameController", methodName : "onPlayerChoose"});
+			haxe_Log.trace("Board point already taken",{ fileName : "GameController.hx", lineNumber : 73, className : "tictactoe.module.game.controller.GameController", methodName : "onPlayerChoose"});
 			this.setActivePlayer(this.model.getAcivePlayerIndex());
 		}
 	}
 	,__class__: tictactoe_module_game_controller_GameController
+};
+var tictactoe_module_game_model_IGameModelRO = function() { };
+$hxClasses["tictactoe.module.game.model.IGameModelRO"] = tictactoe_module_game_model_IGameModelRO;
+tictactoe_module_game_model_IGameModelRO.__name__ = ["tictactoe","module","game","model","IGameModelRO"];
+tictactoe_module_game_model_IGameModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$game_$model_$IGameModelListener];
+tictactoe_module_game_model_IGameModelRO.prototype = {
+	__class__: tictactoe_module_game_model_IGameModelRO
+};
+var tictactoe_module_game_model_IGameModel = function() { };
+$hxClasses["tictactoe.module.game.model.IGameModel"] = tictactoe_module_game_model_IGameModel;
+tictactoe_module_game_model_IGameModel.__name__ = ["tictactoe","module","game","model","IGameModel"];
+tictactoe_module_game_model_IGameModel.__interfaces__ = [tictactoe_module_game_model_IGameModelRO];
+tictactoe_module_game_model_IGameModel.prototype = {
+	__class__: tictactoe_module_game_model_IGameModel
 };
 var tictactoe_module_game_model_GameModel = function() {
 	this.playerList = [];
@@ -7368,20 +7370,6 @@ tictactoe_module_player_ai_controller_IAIPlayerController.__name__ = ["tictactoe
 tictactoe_module_player_ai_controller_IAIPlayerController.prototype = {
 	__class__: tictactoe_module_player_ai_controller_IAIPlayerController
 };
-var tictactoe_module_player_ai_model_IAIPlayerModelRO = function() { };
-$hxClasses["tictactoe.module.player.ai.model.IAIPlayerModelRO"] = tictactoe_module_player_ai_model_IAIPlayerModelRO;
-tictactoe_module_player_ai_model_IAIPlayerModelRO.__name__ = ["tictactoe","module","player","ai","model","IAIPlayerModelRO"];
-tictactoe_module_player_ai_model_IAIPlayerModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$player_$ai_$model_$IAIPlayerModelListener];
-tictactoe_module_player_ai_model_IAIPlayerModelRO.prototype = {
-	__class__: tictactoe_module_player_ai_model_IAIPlayerModelRO
-};
-var tictactoe_module_player_ai_model_IAIPlayerModel = function() { };
-$hxClasses["tictactoe.module.player.ai.model.IAIPlayerModel"] = tictactoe_module_player_ai_model_IAIPlayerModel;
-tictactoe_module_player_ai_model_IAIPlayerModel.__name__ = ["tictactoe","module","player","ai","model","IAIPlayerModel"];
-tictactoe_module_player_ai_model_IAIPlayerModel.__interfaces__ = [tictactoe_module_player_ai_model_IAIPlayerModelRO];
-tictactoe_module_player_ai_model_IAIPlayerModel.prototype = {
-	__class__: tictactoe_module_player_ai_model_IAIPlayerModel
-};
 var tictactoe_module_player_ai_controller_AIPlayerController = function() { };
 $hxClasses["tictactoe.module.player.ai.controller.AIPlayerController"] = tictactoe_module_player_ai_controller_AIPlayerController;
 tictactoe_module_player_ai_controller_AIPlayerController.__name__ = ["tictactoe","module","player","ai","controller","AIPlayerController"];
@@ -7477,6 +7465,20 @@ tictactoe_module_player_ai_controller_AIPlayerController.prototype = {
 		if(this.model.getPlayerSign() == "x") return "o"; else return "x";
 	}
 	,__class__: tictactoe_module_player_ai_controller_AIPlayerController
+};
+var tictactoe_module_player_ai_model_IAIPlayerModelRO = function() { };
+$hxClasses["tictactoe.module.player.ai.model.IAIPlayerModelRO"] = tictactoe_module_player_ai_model_IAIPlayerModelRO;
+tictactoe_module_player_ai_model_IAIPlayerModelRO.__name__ = ["tictactoe","module","player","ai","model","IAIPlayerModelRO"];
+tictactoe_module_player_ai_model_IAIPlayerModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$player_$ai_$model_$IAIPlayerModelListener];
+tictactoe_module_player_ai_model_IAIPlayerModelRO.prototype = {
+	__class__: tictactoe_module_player_ai_model_IAIPlayerModelRO
+};
+var tictactoe_module_player_ai_model_IAIPlayerModel = function() { };
+$hxClasses["tictactoe.module.player.ai.model.IAIPlayerModel"] = tictactoe_module_player_ai_model_IAIPlayerModel;
+tictactoe_module_player_ai_model_IAIPlayerModel.__name__ = ["tictactoe","module","player","ai","model","IAIPlayerModel"];
+tictactoe_module_player_ai_model_IAIPlayerModel.__interfaces__ = [tictactoe_module_player_ai_model_IAIPlayerModelRO];
+tictactoe_module_player_ai_model_IAIPlayerModel.prototype = {
+	__class__: tictactoe_module_player_ai_model_IAIPlayerModel
 };
 var tictactoe_module_player_ai_model_AIPlayerModel = function() {
 	this._active = false;
@@ -7576,20 +7578,6 @@ tictactoe_module_player_user_controller_IUserPlayerController.__name__ = ["ticta
 tictactoe_module_player_user_controller_IUserPlayerController.prototype = {
 	__class__: tictactoe_module_player_user_controller_IUserPlayerController
 };
-var tictactoe_module_player_user_model_IUserPlayerModelRO = function() { };
-$hxClasses["tictactoe.module.player.user.model.IUserPlayerModelRO"] = tictactoe_module_player_user_model_IUserPlayerModelRO;
-tictactoe_module_player_user_model_IUserPlayerModelRO.__name__ = ["tictactoe","module","player","user","model","IUserPlayerModelRO"];
-tictactoe_module_player_user_model_IUserPlayerModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$player_$user_$model_$IUserPlayerModelListener];
-tictactoe_module_player_user_model_IUserPlayerModelRO.prototype = {
-	__class__: tictactoe_module_player_user_model_IUserPlayerModelRO
-};
-var tictactoe_module_player_user_model_IUserPlayerModel = function() { };
-$hxClasses["tictactoe.module.player.user.model.IUserPlayerModel"] = tictactoe_module_player_user_model_IUserPlayerModel;
-tictactoe_module_player_user_model_IUserPlayerModel.__name__ = ["tictactoe","module","player","user","model","IUserPlayerModel"];
-tictactoe_module_player_user_model_IUserPlayerModel.__interfaces__ = [tictactoe_module_player_user_model_IUserPlayerModelRO];
-tictactoe_module_player_user_model_IUserPlayerModel.prototype = {
-	__class__: tictactoe_module_player_user_model_IUserPlayerModel
-};
 var tictactoe_module_player_user_controller_UserPlayerController = function() { };
 $hxClasses["tictactoe.module.player.user.controller.UserPlayerController"] = tictactoe_module_player_user_controller_UserPlayerController;
 tictactoe_module_player_user_controller_UserPlayerController.__name__ = ["tictactoe","module","player","user","controller","UserPlayerController"];
@@ -7608,6 +7596,20 @@ tictactoe_module_player_user_controller_UserPlayerController.prototype = {
 		if(this.board.getBoardPoint(point) != null) this.view.getChoice().onComplete($bind(this,this.onPlayerTurnResult)); else this.playerTurnResponder.complete(point);
 	}
 	,__class__: tictactoe_module_player_user_controller_UserPlayerController
+};
+var tictactoe_module_player_user_model_IUserPlayerModelRO = function() { };
+$hxClasses["tictactoe.module.player.user.model.IUserPlayerModelRO"] = tictactoe_module_player_user_model_IUserPlayerModelRO;
+tictactoe_module_player_user_model_IUserPlayerModelRO.__name__ = ["tictactoe","module","player","user","model","IUserPlayerModelRO"];
+tictactoe_module_player_user_model_IUserPlayerModelRO.__interfaces__ = [hex_model_IModelRO_$tictactoe_$module_$player_$user_$model_$IUserPlayerModelListener];
+tictactoe_module_player_user_model_IUserPlayerModelRO.prototype = {
+	__class__: tictactoe_module_player_user_model_IUserPlayerModelRO
+};
+var tictactoe_module_player_user_model_IUserPlayerModel = function() { };
+$hxClasses["tictactoe.module.player.user.model.IUserPlayerModel"] = tictactoe_module_player_user_model_IUserPlayerModel;
+tictactoe_module_player_user_model_IUserPlayerModel.__name__ = ["tictactoe","module","player","user","model","IUserPlayerModel"];
+tictactoe_module_player_user_model_IUserPlayerModel.__interfaces__ = [tictactoe_module_player_user_model_IUserPlayerModelRO];
+tictactoe_module_player_user_model_IUserPlayerModel.prototype = {
+	__class__: tictactoe_module_player_user_model_IUserPlayerModel
 };
 var tictactoe_module_player_user_model_IUserPlayerModelListener = function() { };
 $hxClasses["tictactoe.module.player.user.model.IUserPlayerModelListener"] = tictactoe_module_player_user_model_IUserPlayerModelListener;
@@ -7923,18 +7925,19 @@ haxe_xml_Parser.escapes = (function($this) {
 }(this));
 hex_collection_LocatorMessage.REGISTER = new hex_event_MessageType("onRegister");
 hex_collection_LocatorMessage.UNREGISTER = new hex_event_MessageType("onUnregister");
-hex_config_stateless_StatelessModuleConfig.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "injector", propertyType : hex_di_IDependencyInjector, injectionName : "", isOptional : false},{ propertyName : "frontController", propertyType : hex_control_IFrontController, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
+hex_config_stateless_StatelessModuleConfig.__INJECTION_DATA = { c : { a : []}, p : [{ p : "injector", t : "hex.di.IDependencyInjector", n : "", o : false},{ p : "frontController", t : "hex.control.IFrontController", n : "", o : false}], m : [], pc : [], pd : []};
 hex_control_async_AsyncCommand.WAS_NEVER_USED = "WAS_NEVER_USED";
 hex_control_async_AsyncCommand.IS_RUNNING = "IS_RUNNING";
 hex_control_async_AsyncCommand.IS_COMPLETED = "IS_COMPLETED";
 hex_control_async_AsyncCommand.IS_FAILED = "IS_FAILED";
 hex_control_async_AsyncCommand.IS_CANCELLED = "IS_CANCELLED";
 hex_control_async_AsyncCommand._POOL = new haxe_ds_ObjectMap();
+hex_control_async_AsyncCommand.__INJECTION_DATA = { c : { a : []}, p : [], m : [], pc : [], pd : []};
 hex_control_async_AsyncCommandMessage.COMPLETE = new hex_event_MessageType("onAsyncCommandComplete");
 hex_control_async_AsyncCommandMessage.FAIL = new hex_event_MessageType("onAsyncCommandFail");
 hex_control_async_AsyncCommandMessage.CANCEL = new hex_event_MessageType("onAsyncCommandCancel");
-hex_control_macro_Macro.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "macroExecutor", propertyType : hex_control_macro_IMacroExecutor, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-hex_control_macro_MacroExecutor.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "injector", propertyType : hex_di_IBasicInjector, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
+hex_control_macro_Macro.__INJECTION_DATA = { c : { a : []}, p : [{ p : "macroExecutor", t : "hex.control.macro.IMacroExecutor", n : "", o : false}], m : [], pc : [], pd : []};
+hex_control_macro_MacroExecutor.__INJECTION_DATA = { c : { a : []}, p : [{ p : "injector", t : "hex.di.IBasicInjector", n : "", o : false}], m : [], pc : [], pd : []};
 hex_core_HashCodeFactory._nKEY = 0;
 hex_core_HashCodeFactory._M = new haxe_ds_ObjectMap();
 hex_di_InjectionEvent.POST_INSTANTIATE = "onPostInstantiate";
@@ -7948,7 +7951,7 @@ hex_domain_DefaultDomain.DOMAIN = hex_domain_DomainUtil.getDomain("DefaultDomain
 hex_domain_DomainExpert._Instance = new hex_domain_DomainExpert();
 hex_domain_DomainExpert._DomainIndex = 0;
 hex_domain_NoDomain.DOMAIN = hex_domain_DomainUtil.getDomain("NoDomain",hex_domain_NoDomain);
-hex_event_MacroAdapterStrategy.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "macroExecutor", propertyType : hex_control_macro_IMacroExecutor, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
+hex_event_MacroAdapterStrategy.__INJECTION_DATA = { c : { a : []}, p : [{ p : "macroExecutor", t : "hex.control.macro.IMacroExecutor", n : "", o : false}], m : [], pc : [], pd : []};
 hex_ioc_assembler_ApplicationAssemblerMessage.CONTEXT_PARSED = new hex_event_MessageType("onContextParsed");
 hex_ioc_assembler_ApplicationAssemblerMessage.ASSEMBLING_START = new hex_event_MessageType("onAssemblingStart");
 hex_ioc_assembler_ApplicationAssemblerMessage.STATE_TRANSITIONS_BUILT = new hex_event_MessageType("onStateTransitionsBuilt");
@@ -7992,12 +7995,12 @@ hex_metadata_AnnotationProvider._Parents = new haxe_ds_ObjectMap();
 hex_module_ModuleMessage.INITIALIZED = new hex_event_MessageType("onModuleInitialisation");
 hex_module_ModuleMessage.RELEASED = new hex_event_MessageType("onModuleRelease");
 hex_state_StateUnmapper._stateUnmapper = new hex_collection_HashMap();
-hex_state_control_StateChangeMacro.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "macroExecutor", propertyType : hex_control_macro_IMacroExecutor, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-hex_view_BasicView.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [], methods : [], postConstruct : [], preDestroy : []};
+hex_state_control_StateChangeMacro.__INJECTION_DATA = { c : { a : []}, p : [{ p : "macroExecutor", t : "hex.control.macro.IMacroExecutor", n : "", o : false}], m : [], pc : [], pd : []};
+hex_view_BasicView.__INJECTION_DATA = { c : { a : []}, p : [], m : [], pc : [], pd : []};
 hex_view_viewhelper_MainViewHelperManagerMessage.VIEW_HELPER_MANAGER_CREATION = new hex_event_MessageType("onViewHelperManagerCreation");
 hex_view_viewhelper_MainViewHelperManagerMessage.VIEW_HELPER_MANAGER_RELEASE = new hex_event_MessageType("onViewHelperManagerRelease");
 hex_view_viewhelper_ViewHelper.DEFAULT_VISIBLE = true;
-hex_view_viewhelper_ViewHelper.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "dispatcher", propertyType : hex_event_IDispatcher, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
+hex_view_viewhelper_ViewHelper.__INJECTION_DATA = { c : { a : []}, p : [{ p : "dispatcher", t : "hex.event.IDispatcher", n : "", o : false}], m : [], pc : [], pd : []};
 hex_view_viewhelper_ViewHelperManager._mInstances = new haxe_ds_ObjectMap();
 hex_view_viewhelper_ViewHelperManager._DISPATCHER = new hex_event_Dispatcher();
 hex_view_viewhelper_ViewHelperManagerMessage.VIEW_HELPER_CREATION = new hex_event_MessageType("onViewHelperCreation");
@@ -8006,17 +8009,17 @@ hex_view_viewhelper_ViewHelperMessage.INIT = new hex_event_MessageType("onInit")
 hex_view_viewhelper_ViewHelperMessage.RELEASE = new hex_event_MessageType("onRelease");
 hex_view_viewhelper_ViewHelperMessage.ATTACH_VIEW = new hex_event_MessageType("onAttachView");
 hex_view_viewhelper_ViewHelperMessage.REMOVE_VIEW = new hex_event_MessageType("onRemoveView");
-js_tictactoe_view_board_BoardView.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "model", propertyType : tictactoe_module_board_model_IBoardModelRO, injectionName : "", isOptional : false}], methods : [], postConstruct : [{ methodName : "init", args : [], order : 0}], preDestroy : []};
-js_tictactoe_view_game_ActivePlayerIndicatorView.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "model", propertyType : tictactoe_module_game_model_IGameModelRO, injectionName : "", isOptional : false}], methods : [], postConstruct : [{ methodName : "init", args : [], order : 0}], preDestroy : []};
-tictactoe_module_board__$BoardModule_BoardModuleConfig.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "injector", propertyType : hex_di_IDependencyInjector, injectionName : "", isOptional : false},{ propertyName : "frontController", propertyType : hex_control_IFrontController, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-tictactoe_module_board_controller_BoardController.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "model", propertyType : tictactoe_module_board_model_IBoardModel, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-tictactoe_module_game__$GameModule_GameModuleConfig.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "injector", propertyType : hex_di_IDependencyInjector, injectionName : "", isOptional : false},{ propertyName : "frontController", propertyType : hex_control_IFrontController, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-tictactoe_module_game_controller_GameController.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "model", propertyType : tictactoe_module_game_model_IGameModel, injectionName : "", isOptional : false},{ propertyName : "board", propertyType : tictactoe_api_IBoard, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-tictactoe_module_player_ai__$AIPlayerModule_AIPlayerModuleConfig.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "injector", propertyType : hex_di_IDependencyInjector, injectionName : "", isOptional : false},{ propertyName : "frontController", propertyType : hex_control_IFrontController, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-tictactoe_module_player_ai_controller_AIPlayerController.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "model", propertyType : tictactoe_module_player_ai_model_IAIPlayerModel, injectionName : "", isOptional : false},{ propertyName : "board", propertyType : tictactoe_api_IBoard, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
-tictactoe_module_player_user__$UserPlayerModule_UserPlayerModuleConfig.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "injector", propertyType : hex_di_IDependencyInjector, injectionName : "", isOptional : false},{ propertyName : "frontController", propertyType : hex_control_IFrontController, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
+js_tictactoe_view_board_BoardView.__INJECTION_DATA = { c : { a : []}, p : [{ p : "model", t : "tictactoe.module.board.model.IBoardModelRO", n : "", o : false}], m : [], pc : [{ m : "init", a : [], o : 0}], pd : []};
+js_tictactoe_view_game_ActivePlayerIndicatorView.__INJECTION_DATA = { c : { a : []}, p : [{ p : "model", t : "tictactoe.module.game.model.IGameModelRO", n : "", o : false}], m : [], pc : [{ m : "init", a : [], o : 0}], pd : []};
+tictactoe_module_board__$BoardModule_BoardModuleConfig.__INJECTION_DATA = { c : { a : []}, p : [{ p : "injector", t : "hex.di.IDependencyInjector", n : "", o : false},{ p : "frontController", t : "hex.control.IFrontController", n : "", o : false}], m : [], pc : [], pd : []};
+tictactoe_module_board_controller_BoardController.__INJECTION_DATA = { c : { a : []}, p : [{ p : "model", t : "tictactoe.module.board.model.IBoardModel", n : "", o : false}], m : [], pc : [], pd : []};
+tictactoe_module_game__$GameModule_GameModuleConfig.__INJECTION_DATA = { c : { a : []}, p : [{ p : "injector", t : "hex.di.IDependencyInjector", n : "", o : false},{ p : "frontController", t : "hex.control.IFrontController", n : "", o : false}], m : [], pc : [], pd : []};
+tictactoe_module_game_controller_GameController.__INJECTION_DATA = { c : { a : []}, p : [{ p : "model", t : "tictactoe.module.game.model.IGameModel", n : "", o : false},{ p : "board", t : "tictactoe.api.IBoard", n : "", o : false}], m : [], pc : [], pd : []};
+tictactoe_module_player_ai__$AIPlayerModule_AIPlayerModuleConfig.__INJECTION_DATA = { c : { a : []}, p : [{ p : "injector", t : "hex.di.IDependencyInjector", n : "", o : false},{ p : "frontController", t : "hex.control.IFrontController", n : "", o : false}], m : [], pc : [], pd : []};
+tictactoe_module_player_ai_controller_AIPlayerController.__INJECTION_DATA = { c : { a : []}, p : [{ p : "model", t : "tictactoe.module.player.ai.model.IAIPlayerModel", n : "", o : false},{ p : "board", t : "tictactoe.api.IBoard", n : "", o : false}], m : [], pc : [], pd : []};
+tictactoe_module_player_user__$UserPlayerModule_UserPlayerModuleConfig.__INJECTION_DATA = { c : { a : []}, p : [{ p : "injector", t : "hex.di.IDependencyInjector", n : "", o : false},{ p : "frontController", t : "hex.control.IFrontController", n : "", o : false}], m : [], pc : [], pd : []};
 tictactoe_module_player_user_controller_UserPlayerController.__meta__ = { fields : { setPlayerTurn : { Debug : null}, onPlayerTurnResult : { Debug : null}}};
-tictactoe_module_player_user_controller_UserPlayerController.__INJECTION_DATA = { constructorInjection : { methodName : "new", args : []}, properties : [{ propertyName : "model", propertyType : tictactoe_module_player_user_model_IUserPlayerModel, injectionName : "", isOptional : false},{ propertyName : "view", propertyType : tictactoe_module_player_user_view_IUserPlayerView, injectionName : "", isOptional : false},{ propertyName : "board", propertyType : tictactoe_api_IBoard, injectionName : "", isOptional : false}], methods : [], postConstruct : [], preDestroy : []};
+tictactoe_module_player_user_controller_UserPlayerController.__INJECTION_DATA = { c : { a : []}, p : [{ p : "model", t : "tictactoe.module.player.user.model.IUserPlayerModel", n : "", o : false},{ p : "view", t : "tictactoe.module.player.user.view.IUserPlayerView", n : "", o : false},{ p : "board", t : "tictactoe.api.IBoard", n : "", o : false}], m : [], pc : [], pd : []};
 tictactoe_TicTacToe.main();
 })(typeof console != "undefined" ? console : {log:function(){}});
 

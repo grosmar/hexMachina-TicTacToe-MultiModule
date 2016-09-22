@@ -1,6 +1,7 @@
 # hexMachina-TicTacToe
 Modular TicTacToe example written in Haxe using [hexMachina](http://hexmachina.org) framework.
 This is just a simple example how a simple game like tic-tac-toe can made modular and extendable, and also a showcase of the possibilities of describing components in DSL.
+
 Check out Single-Module example here: https://github.com/grosmar/hexMachina-TicTacToe-SingleModule
 
 #Demo

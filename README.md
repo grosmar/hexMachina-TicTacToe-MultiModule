@@ -4,7 +4,7 @@ This is just a simple example how a simple game like tic-tac-toe can made modula
 Check out Single-Module example here: https://github.com/grosmar/hexMachina-TicTacToe-SingleModule
 
 #Demo
-You can try the game here: https://grosmar.github.io/hexMachina-TicTacToe/bin/index.html
+You can try the game here: https://grosmar.github.io/hexMachina-TicTacToe-MultiModule/bin/index.html
 
 #Install
 1. Clone repository
